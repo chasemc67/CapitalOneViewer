@@ -203,6 +203,10 @@ class ViewController: UIViewController, UIWebViewDelegate{
             loadWebView()
         }
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
 
 }
