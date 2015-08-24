@@ -92,7 +92,7 @@ class ViewController: UIViewController, UIWebViewDelegate{
         //if loadedFirstPage == true{
         if loadedPage == 2 {
             //return
-            readHtml(nil)
+            readHtml()
             return
         }
         loadedPage += 1
