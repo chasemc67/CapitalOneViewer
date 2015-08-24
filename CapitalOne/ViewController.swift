@@ -30,6 +30,7 @@ class ViewController: UIViewController, UIWebViewDelegate{
     
     var user:User?
 
+    //Setup the main view. create webView programatically, but don't show it
     override func viewDidLoad() {
         println("View did load")
         super.viewDidLoad()
@@ -39,21 +40,9 @@ class ViewController: UIViewController, UIWebViewDelegate{
         webView = UIWebView(frame: CGRectMake(0, self.navigationController!.navigationBar.frame.size.height, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
         webView.delegate = self
         
-        //Make sure that the view is reloaded every time the app opens (even from background)
+        //Sign up for notifications so we can make sure that the view is reloaded every time the app opens 
+        //(even from background)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadView", name: "UIApplicationDidBecomeActiveNotification", object: nil)
-        
-        /*
-        user = getSavedPlayer() as? User
-        if (user != nil) {
-            username = user!.username
-            password = user!.password
-            if username != "" && password != "" {
-                createJavascript(username!, password: password!)
-                loadWebView()
-            }
-        } else {
-            performSegueWithIdentifier("GoToLogin", sender: self)
-        } */
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +50,8 @@ class ViewController: UIViewController, UIWebViewDelegate{
         // Dispose of any resources that can be recreated.
     }
     
+    //Load the webView and sign the user into the website.
+    //If no user data is saved, prompt the user to enter it
     func reloadView(){
         println("Reload View")
         //Check if there is saved user data
@@ -78,22 +69,23 @@ class ViewController: UIViewController, UIWebViewDelegate{
         }
     }
     
-    
+    //Load the webView from nothing. 
+    //Assumes that username and password globals are not empty.
     func loadWebView(){
         loadingWheel1.startAnimating()
         loadingWheel2.startAnimating()
         currentBalanceLabel.text = "--"
         pendingChargesLabel.text = "--"
-        //loadedFirstPage = false
         loadedPage = 0
-        //webView = UIWebView(frame: CGRectMake(0, self.navigationController!.navigationBar.frame.size.height, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
-        //webView.delegate = self
         let url = NSURL(string: "https://www.capitalonecardservice.ca/ecare/loginform?&locale=en_CA&brand=CO_190_101")!
         let request = NSURLRequest(URL: url)
         webView.loadRequest(request)
         //self.view.addSubview(webView)
     }
     
+    // WebView loads 3 total times.
+    //First time we want to inject the username/pass and login
+    //It isnt until the 3rd time that we wanna read the HTML
     func webViewDidFinishLoad(webView: UIWebView) {
         //Make sure this doesnt get called when the second and final page is loaded
         println("Web View Loaded")
@@ -103,7 +95,6 @@ class ViewController: UIViewController, UIWebViewDelegate{
             readHtml(nil)
             return
         }
-        //loadedFirstPage = true
         loadedPage += 1
         let stuff = webView.stringByEvaluatingJavaScriptFromString(javascriptInject1!)
         let stuff2 = webView.stringByEvaluatingJavaScriptFromString(javascriptInject2!)
@@ -111,35 +102,30 @@ class ViewController: UIViewController, UIWebViewDelegate{
         
     }
     
+    // Create the javascript with the supplied username and password
     func createJavascript(username: String, password: String){
         javascriptInject1 = String(format:"var username = document.querySelector('#userid1'); username.value = '%@';", username)
         javascriptInject2 = String(format:"var username = document.querySelector('#password1'); username.value = '%@';", password)
     }
     
+    //Invoke the javascript to submit the login form
     func injectJavascript(timer : NSTimer) {
         let stuff = webView.stringByEvaluatingJavaScriptFromString(javascriptInject3)
         //let myTimer : NSTimer = NSTimer.scheduledTimerWithTimeInterval(4, target: self, selector: Selector("readHtml:"), userInfo: nil, repeats: false)
     }
     
-    func readHtml(timer: NSTimer?) {
+    //Read the HTML we get from the logged in page we target
+    func readHtml() {
         let html: String? = webView.stringByEvaluatingJavaScriptFromString("document.body.innerHTML")
         if html != nil {
-            //println("Html: \(html) ")
             getCurrentBalance(html!)
         } else {
             println("No HTML :(")
         }
     }
     
-    func isInteger(char: String) -> Bool{
-        var numbers: String = "0123456789.,"
-        if numbers.rangeOfString(char) != nil{
-            return true
-        } else {
-            return false
-        }
-    }
     
+    // Gross function for reading out the $ values from the logged in web page
     func getCurrentBalance(html: String) {
         var htmlArray = Array(html)
         var dollarArray = [String]()
@@ -161,6 +147,10 @@ class ViewController: UIViewController, UIWebViewDelegate{
                 break
             }
         }
+        
+        // Check to see if the login was successful
+        // Right now this just checks if the page is NOT the page we want. 
+        // It can't yet tell if the login failed because the creds were bad, or the account was locked
         if dollarArray.count < 1 || dollarArray[1] == "" {
             loadingWheel1.stopAnimating()
             loadingWheel2.stopAnimating()
@@ -174,12 +164,17 @@ class ViewController: UIViewController, UIWebViewDelegate{
             presentViewController(alert, animated: true, completion: nil)
             return
         }
+        
+        // If exection reaches here, then login should have been successful
+        // Stop the loading wheels, and display the booty
         currentBalanceLabel.text = dollarArray[1]
         pendingChargesLabel.text = dollarArray[2]
         loadingWheel1.stopAnimating()
         loadingWheel2.stopAnimating()
     }
     
+    
+    // Show the webView and give user a cancel button
     @IBAction func viewSite(sender: AnyObject) {
         var cancelButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel , target: self, action: "closeWebView")
         navigationBar.leftBarButtonItem = cancelButton
@@ -188,12 +183,13 @@ class ViewController: UIViewController, UIWebViewDelegate{
         self.view.addSubview(webView)
     }
     
+    // User closed webView
     func closeWebView(){
-        println("Closed Web View")
         webView.removeFromSuperview()
         navigationBar.leftBarButtonItem = nil
     }
     
+    // Unwind Segue from SignInView
     @IBAction func getSavedPlayerFromSegue(segue: UIStoryboardSegue){
         let signInViewController: SignInViewController = segue.sourceViewController as! SignInViewController
         username = signInViewController.usernameView.text
@@ -204,6 +200,8 @@ class ViewController: UIViewController, UIWebViewDelegate{
         }
     }
     
+    
+    // Unregister from notification observer on deninit so we dont crash
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }

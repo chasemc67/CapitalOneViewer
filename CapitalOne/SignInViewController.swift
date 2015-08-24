@@ -22,15 +22,15 @@ class SignInViewController: UIViewController {
             usernameView.text = user.username
             passwordView.text = user.password
         }
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
+    
+    //Dispatched when "save user" is clicked
+    //Should send the creds back to the first view. and optionally save them for reuse
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SaveUser"{
             if rememberMeSwitch.on == true {
@@ -42,14 +42,15 @@ class SignInViewController: UIViewController {
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    //Close the keyboard nomatter who has it.
+    @IBAction func resignKeyboard(sender: AnyObject) {
+        println("Resign Keyboard")
+        //A little cooler and more maintainable than the bruteforce method
+        for view in self.view.subviews as! [UIView] {
+            if let textField = view as? UITextField {
+                textField.resignFirstResponder()
+            }
+        }
     }
-    */
-
+    
 }

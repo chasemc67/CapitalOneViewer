@@ -14,6 +14,7 @@
 		AB56FC051B8813920032155B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB56FC041B8813920032155B /* Images.xcassets */; };
 		AB56FC081B8813920032155B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB56FC061B8813920032155B /* LaunchScreen.xib */; };
 		AB56FC141B8813930032155B /* CapitalOneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56FC131B8813930032155B /* CapitalOneTests.swift */; };
+		AB9E500B1B8B0089004A642B /* helperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9E500A1B8B0089004A642B /* helperFunctions.swift */; };
 		ABE79F3B1B8A7EEB002E459C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE79F3A1B8A7EEB002E459C /* SignInViewController.swift */; };
 		ABE79F3F1B8A808B002E459C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE79F3E1B8A808B002E459C /* User.swift */; };
 		ABE79F411B8A81AA002E459C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE79F401B8A81AA002E459C /* CoreDataManager.swift */; };
@@ -41,6 +42,7 @@
 		AB56FC0D1B8813930032155B /* CapitalOneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapitalOneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB56FC121B8813930032155B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB56FC131B8813930032155B /* CapitalOneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalOneTests.swift; sourceTree = "<group>"; };
+		AB9E500A1B8B0089004A642B /* helperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helperFunctions.swift; sourceTree = "<group>"; };
 		ABE79F3A1B8A7EEB002E459C /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		ABE79F3E1B8A808B002E459C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ABE79F401B8A81AA002E459C /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				AB56FC011B8813920032155B /* Main.storyboard */,
 				ABE79F3A1B8A7EEB002E459C /* SignInViewController.swift */,
 				ABE79F401B8A81AA002E459C /* CoreDataManager.swift */,
+				AB9E500A1B8B0089004A642B /* helperFunctions.swift */,
 				AB56FC041B8813920032155B /* Images.xcassets */,
 				AB56FC061B8813920032155B /* LaunchScreen.xib */,
 				AB56FBFC1B8813920032155B /* CapitalOne.xcdatamodeld */,
@@ -227,6 +230,7 @@
 				ABE79F411B8A81AA002E459C /* CoreDataManager.swift in Sources */,
 				ABE79F3B1B8A7EEB002E459C /* SignInViewController.swift in Sources */,
 				AB56FC001B8813920032155B /* ViewController.swift in Sources */,
+				AB9E500B1B8B0089004A642B /* helperFunctions.swift in Sources */,
 				AB56FBFB1B8813920032155B /* AppDelegate.swift in Sources */,
 				ABE79F3F1B8A808B002E459C /* User.swift in Sources */,
 				AB56FBFE1B8813920032155B /* CapitalOne.xcdatamodeld in Sources */,

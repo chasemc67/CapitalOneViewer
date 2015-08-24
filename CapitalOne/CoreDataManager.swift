@@ -13,6 +13,9 @@ import CoreData
 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 let managedContext = appDelegate.managedObjectContext!
 
+//Give a username and password this saves a user in coreData
+//App should only have one user shared at a time. so it tries to modify any existing entry
+//before creating a new one.
 func savePlayer(username: String, password: String) {
     var userToEdit = getSavedPlayer() as? User
     let entity = NSEntityDescription.entityForName("User", inManagedObjectContext: managedContext)
@@ -30,6 +33,8 @@ func savePlayer(username: String, password: String) {
     
 }
 
+//Retrieve a single instance of User.
+//If it comes across more than one intance, it deletes all the others.
 func getSavedPlayer() -> NSManagedObject? {
     var users = [NSManagedObject]()
     
@@ -49,6 +54,7 @@ func getSavedPlayer() -> NSManagedObject? {
     
 }
 
+//Delete all saved users in coreData
 func deletePlayers() {
     var users = [NSManagedObject]()
     let fetchRequest = NSFetchRequest(entityName: "User")
