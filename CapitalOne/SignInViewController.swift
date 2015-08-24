@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameView: UITextField!
     @IBOutlet weak var passwordView: UITextField!
@@ -40,6 +40,18 @@ class SignInViewController: UIViewController {
             }
         }
         
+    }
+
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        println("Text Field thing called")
+        if textField == usernameView && usernameView.text != "" {
+            passwordView.becomeFirstResponder()
+        } else if textField == passwordView && usernameView.text != "" && passwordView.text != "" {
+            self.performSegueWithIdentifier("SaveUser", sender: self)
+        }
+        
+        return true
     }
     
     //Close the keyboard nomatter who has it.

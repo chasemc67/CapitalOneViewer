@@ -197,6 +197,14 @@ class ViewController: UIViewController, UIWebViewDelegate{
         if username != "" && password != "" {
             createJavascript(username!, password: password!)
             loadWebView()
+        } else {
+            var alert = UIAlertController(title: "Login Failed", message: "Username or password is empty", preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: "Ok", style: .Default) {
+                (action: UIAlertAction!) -> Void in
+                self.performSegueWithIdentifier("GoToLogin", sender: self)
+            }
+            alert.addAction(cancelAction)
+            presentViewController(alert, animated: true, completion: nil)
         }
     }
     
