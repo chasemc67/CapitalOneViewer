@@ -7,8 +7,9 @@ It employs login (saved and changeable), and an option to view the site.
 
 
 To Do:
-Add Graphics
-Guidelines so it sizes to all screens
+Add Resizing so it works on all iPhone sizes
+Add app icons
+Add Better Graphics
 Determine the difference between a login failing, and account being locked
 
 
